@@ -4,6 +4,7 @@ from player import Player
 from camera import Camera
 from enemy import Enemy
 from health import Health
+from gameObject import GameObject
 import const
 
 # Инициализация Pygame
@@ -43,6 +44,8 @@ def main():
         Enemy(1500, const.SCREEN_HEIGHT - 70, 30, 1)
     ]
 
+    object = GameObject(700, const.SCREEN_HEIGHT - 600, object_type='box')
+
     hp = Health()
 
     camera = Camera(const.SCREEN_WIDTH, const.SCREEN_HEIGHT)
@@ -51,6 +54,8 @@ def main():
     for plat in platforms:
         all_sprites.add(plat)
     all_sprites.add(player)
+    all_sprites.add(object)
+
     enemys_sprites = pygame.sprite.Group()
     for ene in enemys:
         enemys_sprites.add(ene)
@@ -74,7 +79,6 @@ def main():
             hp.lose_hp()
             if hp.hp <= 0:
                 reset_game(hp)
-
 
 
         # Рендеринг
