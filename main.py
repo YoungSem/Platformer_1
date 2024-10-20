@@ -43,8 +43,9 @@ def main():
         Enemy(1000, const.SCREEN_HEIGHT - 70, 150),
         Enemy(1500, const.SCREEN_HEIGHT - 70, 30, 1)
     ]
-
-    object = GameObject(700, const.SCREEN_HEIGHT - 600, object_type='box')
+    objects = [
+        GameObject(700, const.SCREEN_HEIGHT - 600, object_type='box')
+    ]
 
     hp = Health()
 
@@ -53,8 +54,10 @@ def main():
     all_sprites = pygame.sprite.Group()
     for plat in platforms:
         all_sprites.add(plat)
+    for obj in objects:
+        all_sprites.add(obj)
     all_sprites.add(player)
-    all_sprites.add(object)
+
 
     enemys_sprites = pygame.sprite.Group()
     for ene in enemys:
@@ -71,14 +74,16 @@ def main():
         enemys_sprites.update()
         camera.update(player)
 
-        # Проверка коллизий
-        player.check_collision(platforms)
-        enemy_collisions = pygame.sprite.spritecollide(player, enemys_sprites, True)
 
+        # Проверка коллизий
+        player.check_collision(platforms, objects)
+        enemy_collisions = pygame.sprite.spritecollide(player, enemys_sprites, True)
         if enemy_collisions:
             hp.lose_hp()
             if hp.hp <= 0:
                 reset_game(hp)
+        for obj in objects:
+            obj.collide_player(player)
 
 
         # Рендеринг

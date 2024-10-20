@@ -1,5 +1,6 @@
 # Ящик, Камень
 import pygame
+import player
 import const
 
 class GameObject(pygame.sprite.Sprite):
@@ -19,7 +20,7 @@ class GameObject(pygame.sprite.Sprite):
 
     def gravity(self):
         self.velocity_y += const.GRAVITY
-        self.rect.y += const.GRAVITY
+        self.rect.y += self.velocity_y
 
         if self.rect.bottom > const.SCREEN_HEIGHT - 30:
             self.velocity_y = 0
@@ -36,6 +37,7 @@ class GameObject(pygame.sprite.Sprite):
 
     def update(self):
         self.gravity()
+
 
 
 
